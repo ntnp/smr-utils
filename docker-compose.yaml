@@ -1,0 +1,64 @@
+version: '3.8'
+
+services:
+  # API
+  smr-api:
+    image: local/laravel:8.2
+    container_name: smr-api
+    networks:
+      - app
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./smr-api:/var/www/html
+
+  # API Horizon/Scheduler
+  smr-api-horizon:
+    image: local/horizon:8.2
+    container_name: smr-api-horizon
+    networks:
+      - app
+    volumes:
+      - ./smr-api:/var/www/html
+
+  # API web
+  smr-api-web:
+    image: nginx:latest
+    container_name: smr-api-web
+    links:
+      - smr-api
+    ports:
+      - "8040:80"
+    networks:
+      - app
+    volumes:
+      - ./smr-api:/var/www/html
+      - ./.docker/nginx.conf:/etc/nginx/conf.d/default.conf
+
+  # MySQL
+  smr-mysql:
+    image: mariadb:latest
+    container_name: smr-mysql
+    command: "--explicit_defaults_for_timestamp=1"
+    environment:
+      MYSQL_ROOT_PASSWORD: 20240101
+    networks:
+      - app
+    ports:
+      - "3340:3306"
+    volumes:
+      - ./.docker_data/mysql:/var/lib/mysql
+
+  # Redis
+  smr-redis:
+    image: redis:alpine
+    container_name: smr-redis
+    command: "redis-server --requirepass 20240101"
+    networks:
+      - app
+    ports:
+      - "5040:6379"
+
+networks:
+  app:
+    driver: bridge

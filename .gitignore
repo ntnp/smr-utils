@@ -1,0 +1,8 @@
+.vscode
+.idea
+
+.docker_data/mysql/**
+
+!.docker_data/**/.gitkeep
+
+smr-api
