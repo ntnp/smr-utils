@@ -3,7 +3,7 @@ version: '3.9'
 services:
   # API
   smr-api:
-    image: local/laravel:8.2
+    image: ntnp/laravel-dev:8.2
     container_name: smr-api
     networks:
       - app
@@ -14,7 +14,7 @@ services:
 
   # API Horizon/Scheduler
   smr-api-horizon:
-    image: local/horizon:8.2
+    image: ntnp/laravel-horizon-dev:8.2
     container_name: smr-api-horizon
     networks:
       - app
