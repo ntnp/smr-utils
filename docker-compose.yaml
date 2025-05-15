@@ -1,7 +1,7 @@
 services:
   # API
   smr-api:
-    image: ntnp/laravel-dev:8.2
+    build: ./.docker/api
     container_name: smr-api
     hostname: smr-api
     networks:
@@ -13,7 +13,7 @@ services:
 
   # API Horizon/Scheduler
   smr-api-horizon:
-    image: ntnp/laravel-horizon-dev:8.2
+    build: ./.docker/api-horizon
     container_name: smr-api-horizon
     hostname: smr-api-horizon
     networks:
